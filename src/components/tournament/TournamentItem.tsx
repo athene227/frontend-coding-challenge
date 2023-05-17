@@ -1,9 +1,12 @@
+import { deleteTournament, updateTournament } from '../../actions/tournaments';
+
 import Button from '../Button';
 import H6 from '../H6';
 import React from 'react';
 import { Tournament } from '../../types';
 import styled from 'styled-components';
 import theme from '../../theme';
+import { useTournamentDispatch } from '../../selectors/tournaments';
 
 const Card = styled.div`
   display: flex;
@@ -32,6 +35,21 @@ const formatDateTime = (dateTime: Date) => {
 };
 
 const TournamentItem = ({ tournament }: TournamentItemProps) => {
+  const dispatch = useTournamentDispatch();
+
+  const onEditClick = () => {
+    const name = window.prompt('New Tournament Name:', '');
+    if (name && name.trim() !== '')
+      dispatch(updateTournament(tournament.id, name as string));
+  };
+
+  const onDeleteClick = () => {
+    if (
+      window.confirm('Do you really want to delete this tournament?') === true
+    )
+      dispatch(deleteTournament(tournament.id));
+  };
+
   return (
     <Card>
       <H6>{tournament.name}</H6>
@@ -42,8 +60,8 @@ const TournamentItem = ({ tournament }: TournamentItemProps) => {
         <div>Start: {formatDateTime(new Date(tournament.startDate))}</div>
       </div>
       <Actions>
-        <Button>Edit</Button>
-        <Button>Delete</Button>
+        <Button onClick={onEditClick}>Edit</Button>
+        <Button onClick={onDeleteClick}>Delete</Button>
       </Actions>
     </Card>
   );

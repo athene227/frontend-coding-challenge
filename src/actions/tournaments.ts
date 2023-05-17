@@ -38,6 +38,60 @@ const fetchTournaments =
     }
   };
 
+const createTournamentSuccess = (tournament: Tournament) => ({
+  type: 'tournaments/createSucceeded' as const,
+  payload: tournament,
+});
+
+const createTournament =
+  (name: string): Thunk =>
+  async (dispatch: RootThunkDispatch, getState: RootGetState) => {
+    try {
+      const response = await fetch(API_TOURNAMENTS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const tournament = await response.json();
+      dispatch(createTournamentSuccess(tournament));
+    } catch (e) {}
+  };
+
+const updateTournamentSuccess = (tournament: Tournament) => ({
+  type: 'tournaments/updateSucceeded' as const,
+  payload: tournament,
+});
+
+const updateTournament =
+  (id: string, name: string): Thunk =>
+  async (dispatch: RootThunkDispatch) => {
+    try {
+      const response = await fetch(API_TOURNAMENTS_URL + '/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      const tournament = await response.json();
+      dispatch(updateTournamentSuccess(tournament));
+    } catch (e) {}
+  };
+
+const deleteTournamentSuccess = (id: string) => ({
+  type: 'tournaments/deleteSucceeded' as const,
+  payload: id,
+});
+
+const deleteTournament =
+  (id: string): Thunk =>
+  async (dispatch: RootThunkDispatch) => {
+    try {
+      await fetch(API_TOURNAMENTS_URL + '/' + id, {
+        method: 'DELETE',
+      });
+      dispatch(deleteTournamentSuccess(id));
+    } catch (e) {}
+  };
+
 const changeTournamentsFilter = (filter: string) => ({
   type: 'tournaments/changeFilter' as const,
   payload: filter,
@@ -54,8 +108,18 @@ type Action =
   | ReturnType<typeof fetchTournamentsStarted>
   | ReturnType<typeof fetchTournamentsSuccess>
   | ReturnType<typeof fetchTournamentsFailed>
-  | ReturnType<typeof changeTournamentsFilter>;
+  | ReturnType<typeof changeTournamentsFilter>
+  | ReturnType<typeof createTournamentSuccess>
+  | ReturnType<typeof updateTournamentSuccess>
+  | ReturnType<typeof deleteTournamentSuccess>;
 
 export type { Action };
 
-export { fetchTournaments, changeTournamentsFilter, filterTournaments };
+export {
+  fetchTournaments,
+  changeTournamentsFilter,
+  filterTournaments,
+  createTournament,
+  updateTournament,
+  deleteTournament,
+};
