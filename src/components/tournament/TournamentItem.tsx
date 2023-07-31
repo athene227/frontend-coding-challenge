@@ -25,12 +25,12 @@ const Actions = styled.div`
 `;
 
 const formatDateTime = (dateTime: Date) => {
-  const year = dateTime.getFullYear(),
-    month = dateTime.getMonth(),
-    day = dateTime.getDate(),
-    hour = dateTime.getHours(),
-    minute = dateTime.getMinutes(),
-    second = dateTime.getSeconds();
+  const year = dateTime.getUTCFullYear(),
+    month = dateTime.getUTCMonth(),
+    day = dateTime.getUTCDate(),
+    hour = dateTime.getUTCHours(),
+    minute = dateTime.getUTCMinutes(),
+    second = dateTime.getUTCSeconds();
   return `${day}/${month}/${year}, ${hour}:${minute}:${second}`;
 };
 

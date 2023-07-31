@@ -2,7 +2,6 @@ import { AnyAction } from 'redux';
 import Button from '../Button';
 import { Message } from './Message';
 import React from 'react';
-import { ThunkDispatch } from 'redux-thunk';
 import { fetchTournaments } from '../../actions/tournaments';
 import styled from 'styled-components';
 import theme from '../../theme';
@@ -16,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Error = () => {
-  const dispatch: ThunkDispatch<void, {}, AnyAction> = useTournamentDispatch();
+  const dispatch = useTournamentDispatch();
   const onRetryClick = () => {
     dispatch(fetchTournaments());
   };

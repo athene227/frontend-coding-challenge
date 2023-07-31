@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { Message } from './Message';
-import { Tournament } from '../../types/tournaments';
+import { Tournament } from '../../types';
 import TournamentItem from './TournamentItem';
 import styled from 'styled-components';
 import theme from '../../theme';

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../store';
 import { RootThunkDispatch } from '../store';
-import { Tournaments } from '../types/tournaments';
+import { Tournaments } from '../types';
 
 export const useTournamentDispatch: () => RootThunkDispatch = useDispatch;
 export const useTournamentSelector = (): Tournaments =>
